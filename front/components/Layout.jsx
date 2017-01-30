@@ -18,7 +18,7 @@ export default class IndexPage extends React.Component {
                         </p>
                     </div>
                     <div className="col-sm-12">
-                        Copyright © Marcelo Rocha 2017
+                        Copyright © Marcelo Rocha {new Date().getFullYear()}
                     </div>
                 </div>
             </div>
