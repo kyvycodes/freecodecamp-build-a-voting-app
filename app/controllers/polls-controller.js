@@ -31,8 +31,8 @@ let prettyPoll = (subject, poll) => {
             voted_by: false
         };
         item.votes_count += newOption.votes_count;
-        let voted = option.votes.find(opt => {
-            return checkVoter(subject, poll);
+        let voted = option.votes.find(vote => {
+            return checkVoter(subject, vote);
         });
         if (voted) {
             item.voted_by = true;
