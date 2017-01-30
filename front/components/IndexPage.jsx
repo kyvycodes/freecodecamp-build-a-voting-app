@@ -49,6 +49,7 @@ export default class IndexPage extends React.Component {
     this.loadPolls(true);
   }
   onSubmitNew(poll) {
+    this.setState({adding: false});
     polls.add(poll).then(res => {
       let polls = this.state.polls;
       polls.unshift(res);

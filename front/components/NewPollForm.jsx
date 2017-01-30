@@ -53,7 +53,7 @@ export default class NewPollForm extends React.Component {
     }
 
     this.props.onSubmitNew(this.state.poll);
-    return;
+
     this.setState({
       poll:{
         name: "",

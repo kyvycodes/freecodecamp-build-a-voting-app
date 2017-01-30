@@ -27,7 +27,7 @@ export default props => {
     let data = props.poll.options.map(opt => {
         return {
             name: opt.name,
-            votes: +opt.votes_count + 10
+            votes: +opt.votes_count
         };
     })
     let width = props.maxWidth > 720 ? 600 : props.maxWidth - 120;
