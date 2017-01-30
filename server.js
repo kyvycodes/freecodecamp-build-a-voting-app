@@ -5,9 +5,14 @@ var routes = require('./app/routes/index.js');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
+var bodyParser = require('body-parser');
 
 var app = express();
 require('dotenv').load();
+app.enable('trust proxy');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 require('./app/config/passport')(passport);
 
 mongoose.connect(process.env.MONGO_URI);
