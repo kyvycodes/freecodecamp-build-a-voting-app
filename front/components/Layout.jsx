@@ -7,7 +7,7 @@ export default class IndexPage extends React.Component {
             <div className="app">
         {this.props.children}
         
-    	<footer className="text-muted">
+    	<footer>
     		<div className="container text-center">
                 <div className="row">
                     <div className="col-sm-12">

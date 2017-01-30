@@ -40,6 +40,13 @@ body {
 footer {
   padding-top: 3rem;
   padding-bottom: 3rem;
+  color: white;
+  background-color: #28062b;
+}
+.poll-add-frm {
+  background-color: white;
+  border-radius: .25rem;
+  padding: 1.25rem;
 }
 
 footer p {

@@ -36,7 +36,7 @@ export default class PollPage extends React.Component {
     		<div className="container">
     			<h1 className="jumbotron-heading">Codex polls</h1>
     			<h3>A project for freeCodeCamp</h3>
-    			<a href="#" className="btn btn-primary">Back to home</a>
+    			<Link to="/" className="btn btn-primary">Back to home</Link>
     		</div>
     	</section>
     	<div className="container">

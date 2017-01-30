@@ -74,7 +74,7 @@ export default class NewPollForm extends React.Component {
         <div className="container">
           <div className="row justify-content-md-center">
           <div className="col-sm-12 col-md-8">
-        	<form onSubmit={this.handleSubmit.bind(this)}>
+        	<form className="poll-add-frm" onSubmit={this.handleSubmit.bind(this)}>
         	    <h4>Creating your new poll</h4>
               <div className="form-group">
                 <label>Title</label>
