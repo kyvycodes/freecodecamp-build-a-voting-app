@@ -33,6 +33,7 @@ export default class PollCardItem extends React.Component {
 	render() {
 		let props = this.props;
 	    let poll = props.poll;
+	    let baseUrl = window.location.href.split("#")[0];
 		let options = poll.options.map(option => {
 			let btnClass = "btn btn-outline-primary";
 			if(option.voted_by) {
@@ -47,7 +48,10 @@ export default class PollCardItem extends React.Component {
 				{option.name} | {option.votes_count} 
 		      </button>);
 		});
+		let pollUrl = baseUrl +"#/polls/" + poll._id;
 
+		let twitterShare = "https://twitter.com/intent/tweet?&text=vote for " + poll.name + " on codex polls &url=" + pollUrl;
+		
 		return (
 		<div className="card mb-3">
 			<div className="card-block">
@@ -80,7 +84,9 @@ export default class PollCardItem extends React.Component {
 	    		>
 		    	details
 		      </Link>:""}
-			  <a href="#" className="card-link">share on facebook</a>
+			  <a className="card-link" target="_blank" href={twitterShare}>
+				share on twitter
+			  </a>
 		    </div>
 		</div>
 		);
