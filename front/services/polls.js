@@ -37,7 +37,7 @@ export default {
     });
   },
   
-  vote: (poll, optionId) => {
+  vote: (poll, option) => {
     if(poll.voted_by) {
       return;
     }
@@ -49,7 +49,7 @@ export default {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        option_id: optionId
+        option: option
       })
     }).then(response => {
       if(response.status != 200) {

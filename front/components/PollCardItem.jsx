@@ -2,24 +2,53 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-export default props => {
-    let poll = props.poll;
-	let options = poll.options.map(option => {
-		let btnClass = "btn btn-outline-primary";
-		if(option.voted_by) {
-			btnClass += " active";
+export default class PollCardItem extends React.Component {
+  constructor(props) {
+    	super(props);
+    	this.state = {
+    		withNew: false,
+    		newOption: ""
+    	};
+	}
+  
+	handleVoteNewOption(e) {
+		if (!this.state.newOption.length) {
+			return;
 		}
-		return (<button 
-			key={poll._id + option._id}
-			type="button" 
-			className={btnClass}
-			onClick={e => props.onVote(poll, option._id)}
-			>
-			{option.name} | {option.votes_count} 
-	      </button>);
-	});
+	    this.props.onVote(
+	    	this.props.poll, 
+	    	{
+	    		new_opt: this.state.newOption
+	    	}
+    	);
+    	this.setState({withNew: false, newOption: ""});
+	}
+	handleNewOption() {
+		this.setState({withNew: true});
+	}
+	handleNewOptionChange(e) {
+    	this.setState({newOption: e.target.value});
+	}
+  
+	render() {
+		let props = this.props;
+	    let poll = props.poll;
+		let options = poll.options.map(option => {
+			let btnClass = "btn btn-outline-primary";
+			if(option.voted_by) {
+				btnClass += " active";
+			}
+			return (<button 
+				key={poll._id + option._id}
+				type="button" 
+				className={btnClass}
+				onClick={e => props.onVote(poll, {id: option._id})}
+				>
+				{option.name} | {option.votes_count} 
+		      </button>);
+		});
 
-	return (
+		return (
 		<div className="card mb-3">
 			<div className="card-block">
 				<div className="row">
@@ -28,6 +57,11 @@ export default props => {
 						<div className="poll-options">
 							{options}
 						</div>
+						{!poll.voted_by ? <button className="btn btn-link" onClick={this.handleNewOption.bind(this)}>I'd like a custom option</button> : ""}
+						{!poll.voted_by && this.state.withNew ?<div className="input-group mb-2 mr-sm-2">
+		        	       <input type="text" className="form-control" placeholder="new option" value={this.state.newOption} onChange={this.handleNewOptionChange.bind(this)} />
+		        		   <div className="input-group-addon" onClick={this.handleVoteNewOption.bind(this)}>vote</div>
+		        		</div> :""}
 					</div>
 					<div className="col-sm-2">
 						<small className="text-muted">Votes:</small>
@@ -49,5 +83,6 @@ export default props => {
 			  <a href="#" className="card-link">share on facebook</a>
 		    </div>
 		</div>
-	);
+		);
+	}
 }

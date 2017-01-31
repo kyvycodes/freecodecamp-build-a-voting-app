@@ -168,10 +168,20 @@ module.exports = class {
             user_id: req.user && req.user._id ? req.user.id : null,
             ip: req.ip
         };
+        if( !req.body.option || !(req.body.option.id || req.body.option.new_opt)) {
+            return res.status(400).json({
+                success: false,
+                message: "Option should be provided"
+            });
+        }
+        var option = req.body.option;
+        if (!req.user || !req.user.id) {
+            option = {
+                id: req.body.option.id
+            };
+        }
 
-        var optionId = req.body.option_id;
-
-        Poll.voteByPollId(req.params.poll_id, optionId, vote, (err, data) => {
+        Poll.voteByPollId(req.params.poll_id, option, vote, (err, data) => {
             if (!err) {
                 if (data.ok && data.nModified > 0) {
                     return _view(req, res);

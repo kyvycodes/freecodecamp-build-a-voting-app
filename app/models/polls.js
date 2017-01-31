@@ -46,7 +46,7 @@ var _checkVoted = function(poll, vote) {
     
     return false;
 }
-Poll.statics.vote = function(poll, optionId, vote, callback) {
+Poll.statics.vote = function(poll, option, vote, callback) {
     if(!poll || !poll.options.length){ 
         return callback("Invalid poll.");
     }
@@ -56,16 +56,50 @@ Poll.statics.vote = function(poll, optionId, vote, callback) {
         return callback(403);
     }
     
+    var insertVote = optionId => {
+        var query = { 
+            "_id": poll._id,
+            "options._id": optionId 
+        };
+        var update = { "$push": { "options.$.votes": vote } };
+        console.log('vote upate', query, update);
+        this.update(query, update, callback);
+    }
+    
+    if(option && option.id) {
+        return insertVote(option.id);
+    }
+    if (!option || !option.new_opt) {
+        return callback(400);
+    }
+    var foundOpt = poll.options.find(opt => {
+        return opt.name == option.new_opt;
+    });
+    
+    if (foundOpt) {
+        return insertVote(foundOpt._id);
+    }
+    
     var query = { 
-        "_id": poll._id,
-        "options._id": optionId 
+        "_id": poll._id
     };
-    var update = { "$push": { "options.$.votes": vote } };
-    console.log('vote upate', query, update);
-    this.update(query, update, callback);
+    var newOpt = {
+        _id: mongoose.Types.ObjectId(),
+        name: option.new_opt
+    }
+    var update = { "$push": { "options": newOpt } };
+    console.log('vote with new option', query, update);
+    this.update(query, update, (err, data) => {
+        if(err) {
+            return callback(err);
+        }
+        console.log('added option', data, newOpt);
+        return insertVote(newOpt._id);
+    });
+    
 }
 
-Poll.statics.voteByPollId = function(pollId, optionId, vote, callback) {
+Poll.statics.voteByPollId = function(pollId, option, vote, callback) {
     console.log('Vote by id ', arguments);
 
     this.findOne({_id: pollId}).exec((err, data) => {
@@ -76,7 +110,7 @@ Poll.statics.voteByPollId = function(pollId, optionId, vote, callback) {
         if (!data || !data._id) {
             return callback(404);
         }
-        return this.vote(data, optionId, vote, callback);
+        return this.vote(data, option, vote, callback);
     });
 }
 module.exports = mongoose.model('Poll', Poll);
