@@ -57,15 +57,11 @@ export default {
       }
       return response.json();
     }).then(json => {
-      poll.voted_by = true;
-      for(let key in poll.options) {
-        if (poll.options[key]._id == optionId) {
-          poll.options[key].voted_by = true;
-          poll.options[key].votes_count++;
-          poll.votes_count++;
-        }
+      if(json.poll && json.poll._id) {
+        return json.poll;
       }
-      return poll;
+      let msg = json.message ? json.message : "Could not confirm your vote.";
+      throw new Error(msg);
     });
   },
  

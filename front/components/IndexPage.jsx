@@ -29,7 +29,13 @@ export default class IndexPage extends React.Component {
       return;
     }
     polls.vote(poll, optionId).then(result => {
-      this.setState({polls: this.state.polls});
+      for (var key in this.state.polls) {
+        if(this.state.polls[key]._id == result._id) {
+          this.state.polls[key] = result;
+          return this.setState({polls: this.state.polls});
+        }
+      }
+      
     });
   }
   onAddClick() {

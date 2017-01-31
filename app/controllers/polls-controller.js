@@ -2,7 +2,14 @@
 
 var Poll = require('../models/polls.js');
 
-var checkVoter = (subject, vote) => {
+var _subject = req => {
+    return {
+        ip: req.ip,
+        user_id: req.user && req.user.id ? req.user.id : null
+    };
+};
+
+var _checkVoter = (subject, vote) => {
     if (typeof vote != 'object') {
         return false;
     }
@@ -12,7 +19,7 @@ var checkVoter = (subject, vote) => {
     }
     return subject.ip == vote.ip;
 }
-let prettyPoll = (subject, poll) => {
+let _prettyPoll = (subject, poll) => {
     let item = {
         _id: poll._id,
         name: poll.name,
@@ -32,7 +39,7 @@ let prettyPoll = (subject, poll) => {
         };
         item.votes_count += newOption.votes_count;
         let voted = option.votes.find(vote => {
-            return checkVoter(subject, vote);
+            return _checkVoter(subject, vote);
         });
         if (voted) {
             item.voted_by = true;
@@ -42,6 +49,23 @@ let prettyPoll = (subject, poll) => {
     });
 
     return item;
+};
+let _view = (req, res) => {
+    Poll.findOne({
+        _id: req.params.poll_id
+    }).exec((err, data) => {
+        if (err) {
+            return res.status(500).json({
+                'message': 'Unable to get poll'
+            });
+        }
+        if (!data || !data._id) {
+            return res.status(404).json({});
+        }
+        return res.json({
+            poll: _prettyPoll(_subject(req), data)
+        });
+    });
 };
 module.exports = class {
     index(req, res) {
@@ -67,7 +91,7 @@ module.exports = class {
                 user_id: req.user && req.user.id ? req.user.id : null
             };
             var items = data.map(poll => {
-                return prettyPoll(subject, poll);
+                return _prettyPoll(subject, poll);
             })
             return res.json({
                 items: items
@@ -103,7 +127,7 @@ module.exports = class {
         };
         doc.save(err => {
             if (!err) {
-                return res.json(prettyPoll(subject, doc));
+                return res.json(_prettyPoll(subject, doc));
             }
             console.log("Error add poll", err);
             if (!err.errors) {
@@ -117,27 +141,9 @@ module.exports = class {
             return res.status(400).json(data);
         });
     }
-
+    
     view(req, res) {
-        var subject = {
-            ip: req.ip,
-            user_id: req.user.id
-        };
-        Poll.findOne({
-            _id: req.params.poll_id
-        }).exec((err, data) => {
-            if (err) {
-                return res.status(500).json({
-                    'message': 'Unable to get poll'
-                });
-            }
-            if (!data || !data._id) {
-                return res.status(404).json({});
-            }
-            return res.json({
-                poll: prettyPoll(subject, data)
-            });
-        });
+        _view(req, res);
     }
 
     remove(req, res) {
@@ -168,9 +174,7 @@ module.exports = class {
         Poll.voteByPollId(req.params.poll_id, optionId, vote, (err, data) => {
             if (!err) {
                 if (data.ok && data.nModified > 0) {
-                    return res.json({
-                        success: true
-                    });
+                    return _view(req, res);
                 }
                 return res.status(400).json({
                     success: false,

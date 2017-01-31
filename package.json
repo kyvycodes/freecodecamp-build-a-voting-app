@@ -35,6 +35,7 @@
     "express": "^4.12.4",
     "express-session": "^1.11.3",
     "fetch-polyfill": "^0.8.2",
+    "moment": "^2.17.1",
     "mongoose": "^4.1.0",
     "passport": "^0.3.0",
     "passport-github": "^1.0.0",

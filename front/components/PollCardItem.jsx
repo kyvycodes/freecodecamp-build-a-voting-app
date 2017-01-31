@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 
 export default props => {
     let poll = props.poll;
@@ -35,7 +36,8 @@ export default props => {
 				</div>
 			</div>
 			<div className="card-footer">
-		      <small className="text-muted">3 mins ago</small>
+		      <small className="text-muted">{moment(poll.created).fromNow()}</small>
+		      {" "}
 		      {props.pollLink ?<Link
 		    	key={poll._id} 
 		    	to={`/poll/${poll._id}`} 
