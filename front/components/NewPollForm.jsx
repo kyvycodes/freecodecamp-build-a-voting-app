@@ -22,8 +22,9 @@ export default class NewPollForm extends React.Component {
   }
   
   handleKeyPress(e) {
-    if(e.target.charCode==13){
-        this.handleAddOption(); 
+    if(e.charCode == 13){
+      e.preventDefault();
+      this.handleAddOption(); 
     }
   }
 
