@@ -16,6 +16,10 @@ module.exports = function(app, passport) {
 		}
 	}
 	
+	app.route('/polls/:poll_id')
+		.get((req, res) => {
+			res.sendFile(path + '/public/index.html');
+		});
 	app.route('/')
 		.get((req, res) => {
 			res.sendFile(path + '/public/index.html');
