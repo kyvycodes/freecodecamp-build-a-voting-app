@@ -2,14 +2,17 @@
 
 var path = process.cwd();
 var PoolsController = require(path + '/app/controllers/polls-controller.js');
+var UsersController = require(path + '/app/controllers/users-controller.js');
 
 module.exports = function(app, passport) {
 	var pollsCtrl = new PoolsController();
+	var usersCtrl = new UsersController();
+
 	function isLoggedIn (req, res, next) {
 		if (req.isAuthenticated()) {
 			return next();
 		} else {
-			res.redirect('/login');
+			res.status(401).json({code: 401, message: "not authenticate"}).end();
 		}
 	}
 	
@@ -17,16 +20,11 @@ module.exports = function(app, passport) {
 		.get((req, res) => {
 			res.sendFile(path + '/public/index.html');
 		});
-	
-	app.route('/login')
-		.get((req, res) => {
-			res.sendFile(path + '/public/login.html');
-		});
-		
+
 	app.route('/logout')
 		.get((req, res) => {
 			req.logout();
-			res.redirect('/login');
+			res.redirect('/');
 		});
 	
 	app.route('/auth/github')
@@ -35,9 +33,11 @@ module.exports = function(app, passport) {
 	app.route('/auth/github/callback')
 		.get(passport.authenticate('github', {
 			successRedirect: '/',
-			failureRedirect: '/login'
+			failureRedirect: '/'
 		}));
 	
+	app.route('/api/users/:id')
+		.get(isLoggedIn, usersCtrl.profile);
 	//Poll routes
 
 	app.route('/api/:id/polls')

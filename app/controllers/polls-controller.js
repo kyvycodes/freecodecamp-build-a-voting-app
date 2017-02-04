@@ -29,7 +29,6 @@ let _prettyPoll = (subject, poll) => {
         options: []
     };
 
-    console.log('poll', poll);
     poll.options.forEach(option => {
         let newOption = {
             _id: option._id,
@@ -100,7 +99,6 @@ module.exports = class {
     }
 
     add(req, res) {
-        console.log("Poll add:", req.body);
         var subject = {
             ip: req.ip,
             user_id: req.user.id
@@ -129,7 +127,6 @@ module.exports = class {
             if (!err) {
                 return res.json(_prettyPoll(subject, doc));
             }
-            console.log("Error add poll", err);
             if (!err.errors) {
                 err.errors = {};
             }
@@ -151,7 +148,6 @@ module.exports = class {
             _id: req.params.poll_id,
             user_id: req.user._id
         }, err => {
-            console.log('Removing err: ', err);
             if (err) {
                 res.status(400).json({
                     success: false

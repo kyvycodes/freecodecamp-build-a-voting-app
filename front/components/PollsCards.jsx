@@ -4,7 +4,7 @@ import PollCardItem from './PollCardItem.jsx';
 export default props => {
 	var polls = props.polls && props.polls.length ? props.polls : [];
 	var cards = polls.map(poll => {
-		return <PollCardItem pollLink={props.pollLink} onVote={props.onVote} poll={poll} key={poll._id} />
+		return <PollCardItem isLoggedIn={props.isLoggedIn} pollLink={props.pollLink} onVote={props.onVote} poll={poll} key={poll._id} />
 	})
 	
     return (

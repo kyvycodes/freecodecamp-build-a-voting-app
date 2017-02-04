@@ -61,8 +61,8 @@ export default class PollCardItem extends React.Component {
 						<div className="poll-options">
 							{options}
 						</div>
-						{!poll.voted_by ? <button className="btn btn-link" onClick={this.handleNewOption.bind(this)}>I'd like a custom option</button> : ""}
-						{!poll.voted_by && this.state.withNew ?<div className="input-group mb-2 mr-sm-2">
+						{!poll.voted_by && props.isLoggedIn ? <button className="btn btn-link" onClick={this.handleNewOption.bind(this)}>I'd like a custom option</button> : ""}
+						{!poll.voted_by && props.isLoggedIn && this.state.withNew ?<div className="input-group mb-2 mr-sm-2">
 		        	       <input type="text" className="form-control" placeholder="new option" value={this.state.newOption} onChange={this.handleNewOptionChange.bind(this)} />
 		        		   <div className="input-group-addon" onClick={this.handleVoteNewOption.bind(this)}>vote</div>
 		        		</div> :""}

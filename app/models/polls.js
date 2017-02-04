@@ -52,7 +52,6 @@ Poll.statics.vote = function(poll, option, vote, callback) {
     }
 
     if (_checkVoted(poll, vote)) {
-        console.log('Vote by id get _checkVoted', poll, vote);
         return callback(403);
     }
     
@@ -62,7 +61,6 @@ Poll.statics.vote = function(poll, option, vote, callback) {
             "options._id": optionId 
         };
         var update = { "$push": { "options.$.votes": vote } };
-        console.log('vote upate', query, update);
         this.update(query, update, callback);
     }
     
@@ -88,22 +86,18 @@ Poll.statics.vote = function(poll, option, vote, callback) {
         name: option.new_opt
     }
     var update = { "$push": { "options": newOpt } };
-    console.log('vote with new option', query, update);
     this.update(query, update, (err, data) => {
         if(err) {
             return callback(err);
         }
-        console.log('added option', data, newOpt);
         return insertVote(newOpt._id);
     });
     
 }
 
 Poll.statics.voteByPollId = function(pollId, option, vote, callback) {
-    console.log('Vote by id ', arguments);
 
     this.findOne({_id: pollId}).exec((err, data) => {
-        console.log('Vote by id get poll', err, data);
         if (err) {
             return callback(err, data);
         }

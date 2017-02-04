@@ -48,7 +48,15 @@ footer {
   border-radius: .25rem;
   padding: 1.25rem;
 }
-
+.nav-logged {
+  color: white;
+}
+.display-name {
+  margin-bottom: .5rem;
+  margin-right: .5rem;
+  padding: .5rem 1rem;
+  display: block;
+}
 footer p {
   margin-bottom: .25rem;
 }

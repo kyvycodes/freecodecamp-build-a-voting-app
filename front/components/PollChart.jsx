@@ -33,7 +33,6 @@ export default props => {
     let width = props.maxWidth > 720 ? 600 : props.maxWidth - 120;
     width = width > 300 ? width : 300;
     let height = width > 400 ? 300 : 200;
-    console.log("Max", width, height, props);
     return (
       <div className="card mb-3" style={{minWidth: width + 'px'}}>
 		<div className="card-block">

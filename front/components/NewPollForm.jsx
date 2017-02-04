@@ -20,6 +20,12 @@ export default class NewPollForm extends React.Component {
       this.setState({poll: poll, newOption: ""});
     }
   }
+  
+  handleKeyPress(e) {
+    if(e.target.charCode==13){
+        this.handleAddOption(); 
+    }
+  }
 
   handleNewOptionChange(e) {
     this.setState({newOption: e.target.value});
@@ -93,7 +99,14 @@ export default class NewPollForm extends React.Component {
                 </div>)  : ""}
               </fieldset> 
               <div className="input-group mb-2 mr-sm-2">
-        	     <input type="text" className="form-control" placeholder="new option" value={this.state.newOption} onChange={this.handleNewOptionChange.bind(this)} />
+        	     <input 
+        	        type="text" 
+        	        className="form-control" 
+        	        placeholder="new option" 
+        	        value={this.state.newOption} 
+        	        onKeyPress={this.handleKeyPress.bind(this)} 
+        	        onChange={this.handleNewOptionChange.bind(this)} 
+        	        autofocus />
         		   <div className="input-group-addon" onClick={this.handleAddOption.bind(this)}>add</div>
         	  </div>
         	  {this.isValidPoll() ?
