@@ -2,7 +2,7 @@ export default {
  myProfile: () => {
     let url = "/api/users/:id";
 
-    return window.fetch(url,{
+    return fetch(url,{
       credentials: 'include'
     }).then(response => {
       if(response.status != 200 && response.status != 401) {

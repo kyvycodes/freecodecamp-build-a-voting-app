@@ -4,7 +4,7 @@ export default {
     if (onlyUser) {
       url += '?mine=1';
     }
-    return window.fetch(url,{
+    return fetch(url,{
       credentials: 'include'
     }).then(response => {
       if(response.status != 200) {
@@ -22,7 +22,7 @@ export default {
   findOne: id => {
     let url = "/api/polls/" + id;
     
-    return window.fetch(url,{
+    return fetch(url,{
       credentials: 'include'
     }).then(response => {
       if(response.status != 200) {
@@ -42,7 +42,7 @@ export default {
       return;
     }
     let url = "/api/polls/" + poll._id + "/vote";
-    return window.fetch(url, {
+    return fetch(url, {
       credentials: 'include',
       method: 'POST',
       headers: {
@@ -68,7 +68,7 @@ export default {
   add: poll => {
 
     let url = "/api/:id/polls";
-    return window.fetch(url, {
+    return fetch(url, {
       credentials: 'include',
       method: 'POST',
       headers: {

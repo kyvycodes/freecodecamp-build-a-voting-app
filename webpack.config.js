@@ -27,8 +27,8 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     }),
     new webpack.ProvidePlugin({
-        Promise: 'imports?this=>global!exports?global.Promise!es6-promise',
-        fetch: 'imports?this=>global!exports?global.fetch!fetch'
+        'Promise': 'es6-promise',
+        'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
     }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
