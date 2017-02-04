@@ -51,7 +51,7 @@ export default class PollCardItem extends React.Component {
 		let pollUrl = baseUrl +"/polls/" + poll._id;
 
 		let twitterShare = "https://twitter.com/intent/tweet?&text=vote '" + poll.name + "' at " + pollUrl;
-		
+		let fbShare = "https://www.facebook.com/sharer.php?u=" + pollUrl;
 		return (
 		<div className="card mb-3">
 			<div className="card-block">
@@ -84,6 +84,9 @@ export default class PollCardItem extends React.Component {
 	    		>
 		    	details
 		      </Link>:""}
+			  <a className="card-link" target="_blank" href={fbShare}>
+				share on facebook
+			  </a>
 			  <a className="card-link" target="_blank" href={twitterShare}>
 				share on twitter
 			  </a>
