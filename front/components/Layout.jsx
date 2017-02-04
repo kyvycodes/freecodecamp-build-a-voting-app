@@ -18,7 +18,7 @@ export default class Layout extends React.Component {
                         </p>
                     </div>
                     <div className="col-sm-12">
-                        Copyright © Marcelo Rocha {new Date().getFullYear()}
+                        <a target="_blank" href="http://omarcelo.com.br">Copyright © Marcelo Rocha {new Date().getFullYear()}</a>
                     </div>
                 </div>
             </div>
